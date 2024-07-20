@@ -1,7 +1,9 @@
-import appAxios from "@/apiConfig/axiosConfig";
+import apiService from "@/apiConfig/apiService";
+import { AuthResponse } from "@/apiConfig/authResponses";
 import AppButton from "@/components/AppButton";
 import FormField from "@/components/FormField";
 import { images } from "@/constants";
+import useAuthStore from "@/state/auth";
 import { AxiosError } from "axios";
 import { Link } from "expo-router";
 import React, { useRef } from "react";
@@ -17,6 +19,7 @@ interface FormFields {
 }
 
 const SignIn = () => {
+  const { setAuth } = useAuthStore();
   const {
     formState: { isSubmitting },
     handleSubmit,
@@ -27,11 +30,12 @@ const SignIn = () => {
 
   const submit = async (data: FormFields) => {
     try {
-      const res = await appAxios.post("/auth/login", data);
+      const res = await apiService.post<AuthResponse>({ url: "/auth/login", data });
       console.log(res.data);
+      setAuth(res.data);
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error.config);
+        // console.log(error.config);
         Toast.show({
           type: "error",
           text1: error.response?.data || error.code || "Oops! Something went wrong",
@@ -44,6 +48,7 @@ const SignIn = () => {
           text1Style: { fontFamily: "Poppins-Regular", fontSize: 16 },
         });
       }
+      setAuth(null);
     }
   };
 

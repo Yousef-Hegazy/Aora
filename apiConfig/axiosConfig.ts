@@ -1,13 +1,18 @@
+import useAuthStore from "@/state/auth";
 import axios from "axios";
 
 const appAxios = axios.create({
-  baseURL: `${process.env.BASE_URL}/api`,
+  baseURL: `http://10.0.2.2:8000/api`,
 });
 
 appAxios.interceptors.request.use(
   (config) => {
-    const token = "Bearer ";
-    config.headers.Authorization = token;
+    const state = useAuthStore.getState();
+    const token = state.access;
+    if (token) {
+      const authHeader = `Bearer ${token}`;
+      config.headers.Authorization = authHeader;
+    }
     return config;
   },
   (err) => Promise.reject(err)

@@ -1,12 +1,17 @@
+import apiService from "@/apiConfig/apiService";
+import { AuthResponse } from "@/apiConfig/authResponses";
 import AppButton from "@/components/AppButton";
 import FormField from "@/components/FormField";
 import { images } from "@/constants";
+import useAuthStore from "@/state/auth";
+import { AxiosError } from "axios";
 import { Link } from "expo-router";
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Image, ScrollView, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 
 interface FormFields {
   username: string;
@@ -16,6 +21,7 @@ interface FormFields {
 }
 
 const SignUp = () => {
+  const { setAuth } = useAuthStore();
   const {
     formState: { isSubmitting },
     handleSubmit,
@@ -26,8 +32,34 @@ const SignUp = () => {
   const emailRef = useRef<TextInput>(null);
   const confirmPasswordRef = useRef<TextInput>(null);
 
-  const submit = (data: FormFields) => {
-    
+  const submit = async (data: FormFields) => {
+    try {
+      const res = await apiService.post<AuthResponse>({
+        url: "/auth/register",
+        data: {
+          email: data.email,
+          password: data.password,
+          username: data.username,
+        },
+      });
+
+      setAuth(res.data);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        Toast.show({
+          type: "error",
+          text1: error.response?.data || error.code || "Oops! Something went wrong",
+          text1Style: { fontFamily: "Poppins-Regular", fontSize: 16 },
+        });
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Oops! Something went wrong",
+          text1Style: { fontFamily: "Poppins-Regular", fontSize: 16 },
+        });
+      }
+      setAuth(null);
+    }
   };
 
   return (

@@ -32,7 +32,7 @@ const FormField = forwardRef<TextInput, FormFieldProps>(
           <View className={`space-y-2 ${otherStyles}`}>
             <Text className="text-base text-gray-100 font-pmedium">{title}</Text>
             <View
-              className={`w-full h-16 px-4 bg-black-100 rounded-2xl  items-center border-2 border-black-200 flex-row focus:border-secondary ${
+              className={`w-full h-14 px-4 bg-black-100 rounded-2xl  items-center border-2 border-black-200 flex-row focus:border-secondary ${
                 fieldState.error ? "border-red-600" : ""
               }`}
             >
