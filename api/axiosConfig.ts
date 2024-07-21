@@ -1,9 +1,11 @@
-import useAuthStore from "@/state/auth";
-import axios, { AxiosResponse } from "axios";
+import useAuthStore from "@/state/authStore";
+import axios from "axios";
+
+export const BASE_URL = "http://192.168.75.91:8000";
 
 const appAxios = axios.create({
   // baseURL: `http://10.0.2.2:8000/api`,
-  baseURL: `http://192.168.75.91:8000/api`,
+  baseURL: `${BASE_URL}/api`,
 });
 
 appAxios.interceptors.request.use(
@@ -19,25 +21,17 @@ appAxios.interceptors.request.use(
   (err) => Promise.reject(err)
 );
 
-// appAxios.interceptors.response.use(
-//   async (res: AxiosResponse<any, any>) => {
-//     if (res.status === 401) {
-//       const state = useAuthStore.getState();
-//       const refresh = state.refresh;
+appAxios.interceptors.response.use(
+  (res) => res,
+  (error) => {
+    if (error.response?.status === 401) {
+      useAuthStore.getState().setAccessToken("");
+    } else {
+      console.log(error);
+    }
 
-//       if (refresh) {
-//         const result =
-//       } else {
-//         useAuthStore.setState({
-//           access: "",
-//           refresh: "",
-//           user: null,
-//         });
-//       }
-//     }
-//     return res;
-//   },
-//   (err) => Promise.reject(err)
-// );
+    return Promise.reject(error);
+  }
+);
 
 export default appAxios;

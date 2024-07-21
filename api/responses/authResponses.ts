@@ -1,4 +1,4 @@
-import { AuthState } from "@/state/auth";
+import { AuthState } from "@/state/authStore";
 
 export interface AuthResponse extends AuthState {}
 export interface AppUser {

@@ -6,6 +6,8 @@
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
+    "localhost": "expo start --android --localhost -c",
+    "tunnel": "expo start --tunnel",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",

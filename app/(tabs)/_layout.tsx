@@ -1,8 +1,8 @@
-import ToastComponent from "@/components/ToastComponent";
+import AppButton from "@/components/AppButton";
 import { icons } from "@/constants";
-import { initializeSystemUiBg } from "@/helpers/SystemBgInitializer";
-import { Tabs } from "expo-router";
-import React, { useEffect } from "react";
+import useAuthStore from "@/state/authStore";
+import { router, Tabs } from "expo-router";
+import React, { useEffect, useState } from "react";
 import { Image, ImageSourcePropType, Text, View } from "react-native";
 
 const TabIcon = ({
@@ -21,7 +21,7 @@ const TabIcon = ({
   return (
     <View className="items-center justify-center gap-2">
       <Image source={icon} resizeMode="contain" tintColor={color} className="w-6 h-6" />
-      <Text style={{ color: color }} className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}>
+      <Text style={{ color }} className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}>
         {name}
       </Text>
     </View>
@@ -29,9 +29,22 @@ const TabIcon = ({
 };
 
 const TabsLayout = () => {
+  const [refreshing, setRefreshing] = useState(false);
+  const { refresh, access, refreshAuth } = useAuthStore();
+
   useEffect(() => {
-    initializeSystemUiBg();
-  }, []);
+    if (refresh) {
+      router.replace("/home");
+    } else {
+      router.replace("/");
+    }
+  }, [refresh]);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await refreshAuth();
+    setRefreshing(false);
+  };
 
   return (
     <>
@@ -87,7 +100,13 @@ const TabsLayout = () => {
           }}
         />
       </Tabs>
-      <ToastComponent />
+
+      {!access && (
+        <View className="fixed bottom-0 left-0 right-0 px-2 py-4 bg-white flex-col gap-4 justify-between items-center z-50">
+          <Text className="text-base font-pregular">Your session has expired please refresh your session</Text>
+          <AppButton text="Ok" handlePress={handleRefresh} isLoading={refreshing} containerStyle="w-52" />
+        </View>
+      )}
     </>
   );
 };

@@ -2,7 +2,7 @@ import authService from "@/api/services/authService";
 import AppButton from "@/components/AppButton";
 import FormField from "@/components/FormField";
 import { images } from "@/constants";
-import useAuthStore from "@/state/auth";
+import useAuthStore from "@/state/authStore";
 import { AxiosError } from "axios";
 import { Link, router } from "expo-router";
 import React, { useRef } from "react";

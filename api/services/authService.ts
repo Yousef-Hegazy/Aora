@@ -1,4 +1,6 @@
-import { AuthResponse, AppUser } from "../responses/authResponses";
+import axios from "axios";
+import { BASE_URL } from "../axiosConfig";
+import { AppUser, AuthResponse } from "../responses/authResponses";
 import apiService from "./apiService";
 
 const authService = {
@@ -14,7 +16,7 @@ const authService = {
     }),
   getCurrentUser: () => apiService.get<AppUser>({ url: "/auth/me" }),
   refresh: (refreshToken: string) =>
-    apiService.post<AuthResponse>({ url: "/auth/refresh", data: { refresh: refreshToken } }),
+    axios.post<AuthResponse>(`${BASE_URL}/api/auth/refresh`, { refresh: refreshToken }),
 };
 
 export default authService;
