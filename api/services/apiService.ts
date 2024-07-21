@@ -1,4 +1,4 @@
-import appAxios from "./axiosConfig";
+import appAxios from "../axiosConfig";
 
 const apiService = {
   post: <T>({ url, parameters, data }: { url: string; parameters?: any; data?: any }) =>

@@ -48,6 +48,7 @@ const FormField = forwardRef<TextInput, FormFieldProps>(
                 secureTextEntry={type === "password" && !showPassword}
                 returnKeyType={nextElement ? "next" : props.returnKeyType || "done"}
                 onSubmitEditing={(e) => {
+                  e.preventDefault();
                   handleNextElement(e);
                   props.onSubmitEditing?.(e);
                 }}

@@ -1,11 +1,10 @@
-import apiService from "@/apiConfig/apiService";
-import { AuthResponse } from "@/apiConfig/authResponses";
+import authService from "@/api/services/authService";
 import AppButton from "@/components/AppButton";
 import FormField from "@/components/FormField";
 import { images } from "@/constants";
 import useAuthStore from "@/state/auth";
 import { AxiosError } from "axios";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Image, ScrollView, Text, View } from "react-native";
@@ -30,9 +29,12 @@ const SignIn = () => {
 
   const submit = async (data: FormFields) => {
     try {
-      const res = await apiService.post<AuthResponse>({ url: "/auth/login", data });
-      console.log(res.data);
+      const res = await authService.login(data);
+      // console.log(res.data);
+
       setAuth(res.data);
+
+      router.replace("/home");
     } catch (error) {
       if (error instanceof AxiosError) {
         // console.log(error.config);
