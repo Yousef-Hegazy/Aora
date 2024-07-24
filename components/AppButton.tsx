@@ -1,5 +1,6 @@
+import { rippleColor } from "@/constants/Colors";
 import React from "react";
-import { Pressable, Text, TouchableOpacity } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 const AppButton = ({
   text,
@@ -15,16 +16,20 @@ const AppButton = ({
   textStyle?: string;
 }) => {
   return (
-    <TouchableOpacity
-      className={`bg-secondary rounded-xl min-h-[62px] justify-center items-center ${containerStyle} ${
-        isLoading ? "opacity-50" : ""
-      }`}
-      onPress={handlePress}
-      activeOpacity={0.7}
-      disabled={isLoading}
+    <View
+      className={`bg-secondary rounded-xl overflow-hidden ${containerStyle} ${isLoading ? "opacity-50" : ""}`}
+      // activeOpacity={0.7}
+      // background={TouchableNativeFeedback.Ripple("#fff", false)}
     >
-      <Text className={`text-primary font-psemibold text-lg ${textStyle}`}>{text}</Text>
-    </TouchableOpacity>
+      <Pressable
+        className="w-full min-h-[62px] justify-center items-center"
+        onPress={handlePress}
+        disabled={isLoading}
+        android_ripple={{ color: rippleColor, borderless: false, foreground: true }}
+      >
+        <Text className={`text-primary font-psemibold text-lg ${textStyle}`}>{text}</Text>
+      </Pressable>
+    </View>
   );
 };
 

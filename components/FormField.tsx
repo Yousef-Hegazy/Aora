@@ -32,7 +32,7 @@ const FormField = forwardRef<TextInput, FormFieldProps>(
           <View className={`space-y-2 ${otherStyles}`}>
             <Text className="text-base text-gray-100 font-pmedium">{title}</Text>
             <View
-              className={`w-full h-14 px-4 bg-black-100 rounded-2xl  items-center border-2 border-black-200 flex-row focus:border-secondary ${
+              className={`w-full min-h-14 px-4 bg-black-100 rounded-2xl items-center border-2 border-black-200 flex-row focus:border-secondary ${
                 fieldState.error ? "border-red-600" : ""
               }`}
             >
@@ -40,10 +40,12 @@ const FormField = forwardRef<TextInput, FormFieldProps>(
                 ref={ref}
                 {...props}
                 value={field.value}
+                autoCapitalize="none"
                 onChangeText={(e) => field.onChange(e)}
                 onBlur={field.onBlur}
-                className="flex-1 text-white font-psemibold text-base py-2"
+                className="flex-1 text-white font-psemibold text-base py-4"
                 placeholder={props.placeholder || title}
+                blurOnSubmit={!nextElement}
                 placeholderTextColor="#7b7b8b"
                 secureTextEntry={type === "password" && !showPassword}
                 returnKeyType={nextElement ? "next" : props.returnKeyType || "done"}

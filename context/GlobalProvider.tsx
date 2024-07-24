@@ -1,5 +1,5 @@
-import { AppUser } from "@/api/responses/authResponses";
 import authService from "@/api/services/authService";
+import { AppUser } from "@/models/authModels";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type AppUserType = AppUser | null;

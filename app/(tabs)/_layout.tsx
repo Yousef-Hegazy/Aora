@@ -1,7 +1,8 @@
 import AppButton from "@/components/AppButton";
 import { icons } from "@/constants";
-import useAuthStore from "@/state/authStore";
+import useAuthStore from "@/stores/authStore";
 import { router, Tabs } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { Image, ImageSourcePropType, Text, View } from "react-native";
 
@@ -48,6 +49,7 @@ const TabsLayout = () => {
 
   return (
     <>
+      <StatusBar style="light" />
       <Tabs
         screenOptions={{
           tabBarShowLabel: false,

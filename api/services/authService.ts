@@ -1,12 +1,13 @@
+import { AppUser } from "@/models/authModels";
 import axios from "axios";
 import { BASE_URL } from "../axiosConfig";
-import { AppUser, AuthResponse } from "../responses/authResponses";
 import apiService from "./apiService";
+import { Auth } from "@/models/authModels";
 
 const authService = {
-  login: (data: { email: string; password: string }) => apiService.post<AuthResponse>({ url: "/auth/login", data }),
+  login: (data: { email: string; password: string }) => apiService.post<Auth>({ url: "/auth/login", data }),
   register: (data: { email: string; password: string; username: string }) =>
-    apiService.post<AuthResponse>({
+    apiService.post<Auth>({
       url: "/auth/register",
       data: {
         email: data.email,
@@ -15,8 +16,7 @@ const authService = {
       },
     }),
   getCurrentUser: () => apiService.get<AppUser>({ url: "/auth/me" }),
-  refresh: (refreshToken: string) =>
-    axios.post<AuthResponse>(`${BASE_URL}/api/auth/refresh`, { refresh: refreshToken }),
+  refresh: (refreshToken: string) => axios.post<Auth>(`${BASE_URL}/api/auth/refresh`, { refresh: refreshToken }),
 };
 
 export default authService;

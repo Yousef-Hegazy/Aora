@@ -1,6 +1,6 @@
 import AppButton from "@/components/AppButton";
 import { images } from "@/constants";
-import useAuthStore from "@/state/authStore";
+import useAuthStore from "@/stores/authStore";
 import { Redirect, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";

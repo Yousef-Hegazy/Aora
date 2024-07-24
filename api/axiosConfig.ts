@@ -1,7 +1,9 @@
-import useAuthStore from "@/state/authStore";
+import useAuthStore from "@/stores/authStore";
 import axios from "axios";
 
-export const BASE_URL = "http://192.168.75.91:8000";
+// export const BASE_URL = "http://192.168.75.91:8000";
+// export const BASE_URL = "http://192.168.0.228:8000";
+export const BASE_URL = "http://192.168.1.98:8000";
 
 const appAxios = axios.create({
   // baseURL: `http://10.0.2.2:8000/api`,

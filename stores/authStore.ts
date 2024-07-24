@@ -1,18 +1,10 @@
+import { Auth } from "@/models/authModels";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { create, StateCreator } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-export interface AuthState {
-  access: string;
-  refresh: string;
-  user: {
-    id: number;
-    email: string;
-    is_active: boolean;
-    is_staff: boolean;
-  } | null;
-}
+interface AuthState extends Auth {}
 
 interface AuthActions {
   setUser: (user: AuthState["user"]) => void;
